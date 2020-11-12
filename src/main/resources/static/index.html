@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Aircraft Management</title>
+  <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        crossorigin="anonymous">
+</head>
+<body>
+
+<div class="container-fluid">
+
+
+<!--  <div style="height : 30px;">-->
+<!--  &lt;!&ndash;Placeholder for navbar/something&ndash;&gt;-->
+<!--</div>-->
+
+  <!--Title page-->
+  <div class="row">
+    <div class="col-md-7">
+      <h2 class="title" style="padding-bottom:10px;"> AIRCRAFT MANAGEMENT </h2>
+    </div>
+  </div>
+
+
+  <div class="row" id="topbar" style="padding-bottom: 20px;">
+    <div class="col-7" id="addPlane">
+      <!--This button makes the modal #addRoomModal appear-->
+      <button type="button" class="btn btn-success addPlaneButton" data-toggle="modal"
+              data-target="#addPlaneModal">
+        Add a Plane
+      </button>
+    </div>
+
+    <div class="col-4" id="searchPlane">
+      <input type="text" class="form-control" id="searchPlaneName" placeholder="search plane">
+
+    </div>
+    <!--<div class ="col-1" id="searchPlaneButton">-->
+    <!--<button type="button" class="btn btn-secondary float-right" onclick="searchPlane();">Search!</button>-->
+    <!--</div>-->
+
+  </div>
+
+  <!--Modal for adding a room-->
+  <div class="modal fade" id="addPlaneModal" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Add a plane</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <form>
+              <label for="planeName" class="col-form-label">Plane name</label>
+              <input type="text" class="form-control" id="planeName" placeholder="Plane Name">
+              <label for="location">Select location:</label>
+              <select class="form-control" id="location">
+              </select>
+              <label for="amountOfFuel" class="col-form-label">Amount of fuel:</label>
+              <input type="text" class="form-control" id="amountOfFuel"
+                     placeholder="Amount of fuel(max is 5)">
+            </form>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-success" data-dismiss="modal" onclick="postData();">
+            Add
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- Modal delete room-->
+  <div id="deletePlaneModal" class="modal fade" role="dialog" aria-labelledby="myModalLabel"
+       aria-hidden="false"
+       tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+          <h3 id="myModalLabel">Delete a plane</h3>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p id="deleteThisPlane">Are you sure that you want to delete this plane ?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal" id="finalDelete">
+            Confirm Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Table containing all the airports from the backend-->
+  <table class="table table-hover table-dark" id="tablePlanes">
+    <thead>
+    <tr>
+      <th scope="col" id="tablePlaneName">Plane Name</th>
+      <th scope="col" id="tablePlaneLocation">Destination</th>
+      <th scope="col" id="tableAmountOfFuel">Total Fuel</th>
+      <th scope="col" id="tableFillingUpFuel">Refill Fuel</th>
+      <th scope="col" id="tableFly">Fly To Destination</th>
+      <th scope="col" id="tableDelete">Delete</th>
+    </tr>
+    </thead>
+    <tbody class="planeTable" id="planeTable">
+    <!-- In the JS file roomRegistration are the room items being added to this table body-->
+    </tbody>
+  </table>
+
+
+  <!--Modal for adding a room-->
+  <div class="modal fade" id="addAirportModal" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Add a Airport</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <form>
+              <label for="airportName" class="col-form-label">Airport name</label>
+              <input type="text" class="form-control" id="airportName" placeholder="Airport Name">
+              <label for="maxAmountOfFlight" class="col-form-label">Max Amount of flight:</label>
+              <input type="text" class="form-control" id="maxAmountOfFlight"
+                     placeholder="Max Amount of Flight">
+            </form>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-success" data-dismiss="modal" onclick="postAirportData();">
+            Add
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="row" id="topbarAirport" style="padding-bottom: 20px;">
+    <div class="col-7" id="addAirport">
+      <!--This button makes the modal #addRoomModal appear-->
+      <button type="button" class="btn btn-success addPlaneButton" data-toggle="modal"
+              data-target="#addAirportModal">
+        Add a Airport
+      </button>
+    </div>
+    <div class="col-4" id="search">
+      <input type="text" class="form-control" id="searchAirport" placeholder="search airport">
+    </div>
+
+    <!-- Modal delete room-->
+    <div id="deleteAirportModal" class="modal fade" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="false"
+         tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+            <h3 id="myModalAirportLabel">Delete a plane</h3>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+            <p id="deleteThisAirport">Are you sure that you want to delete this plane ?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal" id="finalAirportDelete">
+              Confirm Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+<!---->
+<!--    <div class="modal-body">-->
+<!--      <div class="form-group">-->
+<!--        <form>-->
+<!--          <label for="airportName" class="col-form-label">Airport name</label>-->
+<!--          <input type="text" class="form-control" id="airportName" placeholder="Airport Name">-->
+<!--          <label for="airport">Select Airport:</label>-->
+<!--          <select class="form-control" id="airport">-->
+<!--            <option>Schipol</option>-->
+<!--            <option>Heathrow</option>-->
+<!--            <option>Paris Orly</option>-->
+<!--            <option>Stockholm</option>-->
+<!--            <option>Berlin-Tegel</option>-->
+<!--          </select>-->
+<!--          <label for="numberOfFlights" class="col-form-label">Number of Flights:</label>-->
+<!--          <input type="text" class="form-control" id="numberOfFlights"-->
+<!--                 placeholder="Amount of fuel">-->
+<!--        </form>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    <div class="modal-footer">-->
+<!--      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>-->
+<!--      <button type="button" class="btn btn-success" data-dismiss="modal" onclick="postData();">-->
+<!--        Add-->
+<!--      </button>-->
+<!--    </div>-->
+<!--  </div>-->
+<!---->
+</div>
+</div>
+<!--    <div class ="col-1" id="searchPlaneButton">-->
+<!--    <button type="button" class="btn btn-secondary float-right" onclick="searchPlane();">Search!</button>-->
+<!--    </div>-->
+
+  </div>
+  <!--Table containing all the rooms from the backend-->
+  <table class="table table-hover table-dark" id="tableAirport">
+    <thead>
+    <tr>
+      <th scope="col" id="tableAirportName">Airport Name</th>
+      <th scope="col" id="tableNumberOfFlight">Number of flights</th>
+      <th scope="col" id="tableDeleteAirport">Delete</th>
+<!--      -->
+
+<!--      -->
+    </tr>
+    </thead>
+    <tbody class="planeTable" id="airportTable">
+    <!-- In the JS file roomRegistration are the room items being added to this table body-->
+    </tbody>
+  </table>
+
+</div>
+
+
+<!--JQuery & Bootstrap scripts-->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        crossorigin="anonymous"></script>
+
+<!--Personal JavaScript file-->
+<script src="js/airplane.js"></script>
+<script src="js/airport.js"></script>
+</body>
+</html>
